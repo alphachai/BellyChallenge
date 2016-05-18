@@ -22,10 +22,10 @@
             </objects>
             <point key="canvasLocation" x="-935" y="314"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Locations-->
         <scene sceneID="G0i-y1-1Yz">
             <objects>
-                <tableViewController id="VeQ-ML-cEN" sceneMemberID="viewController">
+                <tableViewController id="VeQ-ML-cEN" customClass="ListViewController" customModule="BellyChallenge" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="101" sectionHeaderHeight="28" sectionFooterHeight="28" id="fXt-Ag-u5z">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -53,7 +53,7 @@
                             <outlet property="delegate" destination="VeQ-ML-cEN" id="2I2-vq-eyt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="vSq-vy-aco"/>
+                    <navigationItem key="navigationItem" title="Locations" id="vSq-vy-aco"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d7Y-kH-RiA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -88,11 +88,6 @@
                     <view key="view" contentMode="scaleToFill" id="Msw-PC-LHa">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GwX-Ry-8rU">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                            </mapView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="bXm-HY-8vd"/>
@@ -145,6 +140,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="GCf-j0-6CT"/>
+        <segue reference="lUF-1q-q3Z"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -1,10 +1,7 @@
-//
-//  AppDelegate.swift
-//  BellyChallenge
-//
-//  Created by Charles Mathews on 5/16/16.
-//  Copyright © 2016 Charlie Mathews. All rights reserved.
-//
+/*
+ Charlie Mathews, 2016
+ This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
+ */
 
 import UIKit
 import CoreData
