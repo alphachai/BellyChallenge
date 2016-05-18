@@ -10,6 +10,10 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
 
     let locationManager : CLLocationManager = CLLocationManager()
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,7 +23,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         
         refreshControl = UIRefreshControl()
-        refreshControl!.backgroundColor = UIColor.grayColor()
+        refreshControl!.backgroundColor = Constants.Colors.statusBar
         refreshControl!.tintColor = UIColor.whiteColor()
         refreshControl!.addTarget(self, action: #selector(updateLocation), forControlEvents: .ValueChanged)
         
@@ -27,13 +31,12 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        updateLocation()
+        venues.get()
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        print("Found location.")
-        
+        //print("Found location.")
         if locations.count > 0 {
             let lat = locations[0].coordinate.latitude
             let lng = locations[0].coordinate.longitude
@@ -88,7 +91,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         if keyPath == "foundResults" && venues.foundResults == true {
-            print(venues.results.count)
+            tableView.reloadData()
             refreshControl?.endRefreshing()
         }
         
@@ -97,30 +100,56 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if (venues.results.count>0) {
             
-            self.tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+            tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+            tableView.backgroundView = nil
             return 1
             
         } else {
             
-            /*
-            UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+            let message = UILabel(frame: CGRectMake(0,0,self.view.bounds.size.width, self.view.bounds.size.height))
+            message.text = "Loading..."
+            message.textColor = UIColor.blackColor()
+            message.numberOfLines = 0
+            message.textAlignment = NSTextAlignment.Center
             
-            messageLabel.text = @"No data is currently available. Please pull down to refresh.";
-            messageLabel.textColor = [UIColor blackColor];
-            messageLabel.numberOfLines = 0;
-            messageLabel.textAlignment = NSTextAlignmentCenter;
-            messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
-            [messageLabel sizeToFit];
+            tableView.backgroundView = message
+            tableView.separatorStyle = UITableViewCellSeparatorStyle.None
             
-            self.tableView.backgroundView = messageLabel;
-            self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-            */
             return 0
         }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return venues.results.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("venue", forIndexPath: indexPath) as! VenueCell
+        
+        cell.name.text = venues.results[indexPath.row].name
+        
+        let distance = Double(venues.results[indexPath.row].distance)*0.000621371
+        cell.distance.text = "\(String(format: "%0.1f", distance)) miles away"
+        
+        let isOpen = !venues.results[indexPath.row].is_closed
+        if isOpen {
+            cell.status.text = "OPEN"
+            cell.status.textColor = UIColor.greenColor()
+        } else {
+            cell.status.text = "CLOSED"
+            cell.status.textColor = UIColor.grayColor()
+        }
+        
+        return cell
+    }
+    
+    func loadImage(index : Int) {
+        let url = venues.results[index].image_url
+        if let checkedURL = NSURL(string: url) {
+            //media.results[index].coverData.item = index
+            //media.results[index].coverData.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
+            //media.results[index].coverData.get(checkedURL)
+        }
     }
     
     override func didReceiveMemoryWarning() {

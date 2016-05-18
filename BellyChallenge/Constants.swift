@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-let venues = VenueRepository.sharedInstance
+let venues = BusinessRepository.sharedInstance
 
 struct Constants {
     
@@ -19,14 +19,8 @@ struct Constants {
     static let name = UIDevice.currentDevice().name
     static let uniqueID = NSUUID().UUIDString
     
-    struct Foursquare {
-        
-        static let id = "V2MSCW4MEX44EWQJLMXTI2RNV0ZSDWETOWLME5502X0LI1HW"
-        static let secret = "ZG2X1ZUZBQU0DPTGOFB22JQSW2U1GFXKY2A222DFIWYXJKCX"
-        
-        struct API {
-            static let search = "https://api.foursquare.com/v2/venues/search"
-        }
+    struct Colors {
+        static let statusBar = UIColor(red: 51.0/255.0, green: 169.0/255.0, blue: 224.0/255.0, alpha: 1.0)
     }
     
     struct Yelp {
