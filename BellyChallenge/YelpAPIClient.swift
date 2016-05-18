@@ -10,10 +10,10 @@ import Foundation
 import OAuthSwift
 
 struct YelpAPIConsole {
-    var consumerKey = "USE YOUR KEY"
-    var consumerSecret = "USE YOUR KEY"
-    var accessToken = "USE YOUR KEY"
-    var accessTokenSecret = "USE YOUR KEY"
+    var consumerKey = Constants.Yelp.ckey
+    var consumerSecret = Constants.Yelp.csecret
+    var accessToken = Constants.Yelp.token
+    var accessTokenSecret = Constants.Yelp.tokensecret
 }
 
 class YelpAPIClient: NSObject {

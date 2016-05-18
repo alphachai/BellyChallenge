@@ -60,7 +60,7 @@
 		0F77DC0B1CEA371D0099E417 /* BellyChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BellyChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F77DC0F1CEA371D0099E417 /* BellyChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellyChallengeUITests.swift; sourceTree = "<group>"; };
 		0F77DC111CEA371D0099E417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0F9ACE071CECF07500D5C17B /* YelpAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpAPIClient.swift; sourceTree = "<group>"; };
+		0F9ACE071CECF07500D5C17B /* YelpAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YelpAPIClient.swift; path = BellyChallenge/YelpAPIClient.swift; sourceTree = "<group>"; };
 		1F2615E0600ACD9B7FA3BFFD /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5C71A59C53E7DF6AF3763855 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,7 +103,6 @@
 		0F3E6C451CEA8FB300B98F72 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0F9ACE071CECF07500D5C17B /* YelpAPIClient.swift */,
 				0F77DBF31CEA371D0099E417 /* BellyChallenge.xcdatamodeld */,
 				0F3E6C431CEA8FAD00B98F72 /* Venue.swift */,
 				0F3E6C411CEA8F9B00B98F72 /* VenueRepository.swift */,
@@ -155,12 +154,12 @@
 			isa = PBXGroup;
 			children = (
 				0F3E6C3F1CEA8F5D00B98F72 /* Constants.swift */,
-				0F77DBEC1CEA371D0099E417 /* AppDelegate.swift */,
-				0F77DBF61CEA371D0099E417 /* Assets.xcassets */,
-				0F77DBFB1CEA371D0099E417 /* Info.plist */,
 				0F3E6C451CEA8FB300B98F72 /* Model */,
 				0F3E6C461CEA8FC900B98F72 /* View */,
 				0F3E6C471CEA8FD500B98F72 /* Controller */,
+				0F77DBFB1CEA371D0099E417 /* Info.plist */,
+				0F77DBEC1CEA371D0099E417 /* AppDelegate.swift */,
+				0F77DBF61CEA371D0099E417 /* Assets.xcassets */,
 			);
 			path = BellyChallenge;
 			sourceTree = "<group>";
@@ -186,6 +185,7 @@
 		EBF8C7AF4D7A0C2711ECF805 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F9ACE071CECF07500D5C17B /* YelpAPIClient.swift */,
 				07AFA810463C5EF41A506F08 /* Pods.framework */,
 			);
 			name = Frameworks;

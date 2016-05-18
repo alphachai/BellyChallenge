@@ -95,7 +95,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if (search.results.count>0) {
+        if (venues.results.count>0) {
             
             self.tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             return 1
