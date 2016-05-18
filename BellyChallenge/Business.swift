@@ -24,5 +24,7 @@ class Business : NSObject {
     var id : String = ""
     var is_closed : Bool = true
     var distance : Int = 0
-
+    
+    var category : String = ""
+    var thumb : ImageData = ImageData()
 }

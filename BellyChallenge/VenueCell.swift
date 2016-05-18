@@ -8,6 +8,7 @@ import UIKit
 class VenueCell: UITableViewCell {
 
     @IBOutlet weak var thumb: UIImageView!
+    @IBOutlet weak var thumbHolder: UIView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var type: UILabel!

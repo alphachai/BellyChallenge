@@ -84,15 +84,39 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         venues.addObserver(self, forKeyPath: "foundResults", options: Constants.KVO_Options, context: nil)
     }
     
-    deinit {
+    func removeObservers() {
         venues.removeObserver(self, forKeyPath: "foundResults")
+        for r in venues.results {
+            if r.thumb.downloadInProgress == true {
+                r.thumb.task!.cancel()
+                r.thumb.removeObserver(self, forKeyPath: "imageDownloadComplete")
+            }
+        }
+    }
+    
+    deinit {
+        removeObservers()
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         if keyPath == "foundResults" && venues.foundResults == true {
+            
             tableView.reloadData()
+            loadVisibleMediaImages()
             refreshControl?.endRefreshing()
+            
+        } else if keyPath == "deinitCanary" {
+            
+            removeObservers()
+            
+        } else if keyPath == "imageDownloadComplete" {
+            
+            let target = object as! ImageData
+            
+            let path = NSIndexPath(forItem: target.item, inSection: 0)
+            tableView.reloadRowsAtIndexPaths([path], withRowAnimation: UITableViewRowAnimation.Fade)
+            object?.removeObserver(self, forKeyPath: "imageDownloadComplete")
         }
         
     }
@@ -127,28 +151,62 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("venue", forIndexPath: indexPath) as! VenueCell
         
         cell.name.text = venues.results[indexPath.row].name
+        cell.type.text = venues.results[indexPath.row].category
         
-        let distance = Double(venues.results[indexPath.row].distance)*0.000621371
+        let distance = Double(venues.results[indexPath.row].distance)*0.000621371 // meters*(meters/mile)
         cell.distance.text = "\(String(format: "%0.1f", distance)) miles away"
         
         let isOpen = !venues.results[indexPath.row].is_closed
         if isOpen {
             cell.status.text = "OPEN"
-            cell.status.textColor = UIColor.greenColor()
+            cell.status.textColor = Constants.Colors.open
         } else {
             cell.status.text = "CLOSED"
-            cell.status.textColor = UIColor.grayColor()
+            cell.status.textColor = Constants.Colors.closed
         }
         
+        if(venues.results[indexPath.item].thumb.imageDownloadComplete == true) {
+            cell.thumb.image = UIImage(data: venues.results[indexPath.item].thumb.data)!
+        } else {
+            cell.thumb.image = UIImage(named: "placeholder.png")
+        }
+        
+        cell.thumb.layer.borderWidth = 1
+        cell.thumb.layer.borderColor = Constants.Colors.imageBorder.CGColor
+        cell.thumb.layer.cornerRadius = 5
+        cell.thumb.clipsToBounds = true
+        
         return cell
+    }
+    
+    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if decelerate == false {
+            loadVisibleMediaImages()
+        }
+    }
+    
+    override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        loadVisibleMediaImages()
+    }
+    
+    func loadVisibleMediaImages() {
+        if venues.results.count > 0 {
+            if let indicies : [NSIndexPath] = tableView.indexPathsForVisibleRows! {
+                for i in indicies {
+                    if venues.results[i.row].thumb.imageDownloadComplete == false {
+                        loadImage(i.row)
+                    }
+                }
+            }
+        }
     }
     
     func loadImage(index : Int) {
         let url = venues.results[index].image_url
         if let checkedURL = NSURL(string: url) {
-            //media.results[index].coverData.item = index
-            //media.results[index].coverData.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
-            //media.results[index].coverData.get(checkedURL)
+            venues.results[index].thumb.item = index
+            venues.results[index].thumb.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
+            venues.results[index].thumb.get(checkedURL)
         }
     }
     

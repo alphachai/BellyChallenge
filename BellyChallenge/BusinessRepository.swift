@@ -84,9 +84,19 @@ class BusinessRepository : NSObject {
                         
                         for (k,v) in b as! Dictionary<String, AnyObject> {
                             
-                            if new.respondsToSelector(Selector(k)) && !NSObject.respondsToSelector(Selector(k)) {
-                                new.setValue(v, forKey: k)
+                            if k == "categories" {
+                                
+                                let categories = v as! Array<AnyObject>
+                                let first = categories.first as! Array<AnyObject>
+                                new.category = first.first as! String
+                                
+                            } else {
+                                
+                                if new.respondsToSelector(Selector(k)) && !NSObject.respondsToSelector(Selector(k)) {
+                                    new.setValue(v, forKey: k)
+                                }
                             }
+                        
                         }
                         
                         results.append(new)
