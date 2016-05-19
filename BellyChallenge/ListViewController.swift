@@ -89,6 +89,10 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     
     func loadObservers() {
         venues.addObserver(self, forKeyPath: "foundResults", options: Constants.KVO_Options, context: nil)
+        for r in venues.results {
+            r.thumb.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
+            r.icon_data.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
+        }
     }
     
     func removeObservers() {
@@ -96,12 +100,13 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         for r in venues.results {
             if r.thumb.downloadInProgress == true {
                 r.thumb.task!.cancel()
-                r.thumb.removeObserver(self, forKeyPath: "imageDownloadComplete")
             }
+            r.thumb.removeObserver(self, forKeyPath: "imageDownloadComplete")
+            
             if r.icon_data.downloadInProgress == true {
                 r.icon_data.task!.cancel()
-                r.icon_data.removeObserver(self, forKeyPath: "imageDownloadComplete")
             }
+            r.icon_data.removeObserver(self, forKeyPath: "imageDownloadComplete")
         }
     }
     
@@ -126,7 +131,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
             let target = object as! ImageData
             let path = NSIndexPath(forItem: target.item, inSection: 0)
             tableView.reloadRowsAtIndexPaths([path], withRowAnimation: UITableViewRowAnimation.Fade)
-            object?.removeObserver(self, forKeyPath: "imageDownloadComplete")
+            //object?.removeObserver(self, forKeyPath: "imageDownloadComplete")
         }
         
     }
@@ -236,7 +241,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         let url = venues.results[index].icon_url
         if let checkedURL = NSURL(string: url) {
             venues.results[index].thumb.item = index
-            venues.results[index].thumb.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
+            //venues.results[index].thumb.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
             venues.results[index].thumb.get(checkedURL)
         }
     }
@@ -250,7 +255,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
             url += "&client_secret=" + Constants.Foursquare.secret
         if let checkedURL = NSURL(string: url) {
             venues.results[index].icon_data.item = index
-            venues.results[index].icon_data.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
+            //venues.results[index].icon_data.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
             venues.results[index].icon_data.get(checkedURL)
         }
     }
