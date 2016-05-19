@@ -172,7 +172,6 @@
 		0F77DBEB1CEA371D0099E417 /* BellyChallenge */ = {
 			isa = PBXGroup;
 			children = (
-				0F9ACE221CED308900D5C17B /* placeholder.png */,
 				0F3E6C3F1CEA8F5D00B98F72 /* Constants.swift */,
 				0F3E6C451CEA8FB300B98F72 /* Model */,
 				0F3E6C461CEA8FC900B98F72 /* View */,
@@ -180,6 +179,7 @@
 				0F77DBFB1CEA371D0099E417 /* Info.plist */,
 				0F77DBEC1CEA371D0099E417 /* AppDelegate.swift */,
 				0F77DBF61CEA371D0099E417 /* Assets.xcassets */,
+				0F9ACE221CED308900D5C17B /* placeholder.png */,
 			);
 			path = BellyChallenge;
 			sourceTree = "<group>";

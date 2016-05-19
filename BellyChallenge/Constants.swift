@@ -26,6 +26,15 @@ struct Constants {
         static let imageBorder = UIColor(red: 0, green: 0, blue: 0, alpha: 0.15)
     }
     
+    struct Foursquare {
+        static let id = "V2MSCW4MEX44EWQJLMXTI2RNV0ZSDWETOWLME5502X0LI1HW"
+        static let secret = "ZG2X1ZUZBQU0DPTGOFB22JQSW2U1GFXKY2A222DFIWYXJKCX"
+
+        struct API {
+            static let search = "https://api.foursquare.com/v2/venues/search"
+        }
+    }
+    
     struct Yelp {
         static let ckey = "emFz4WJ9z4HInUjRzDRWDQ"
         static let csecret = "mWEDzD0LoR_fvK-ol58cDAuxNWo"
