@@ -136,14 +136,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     }
      */
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+
+        if segue.identifier == "listShowDetail" {
+            
+            //let dest = segue.destinationViewController as!
+            //destViewController.hidesBottomBarWhenPushed = YES
+            
+        } else if segue.identifier == "mapShowDetail" {
+            
+            //
+            
+        }
     }
-    */
 
 }

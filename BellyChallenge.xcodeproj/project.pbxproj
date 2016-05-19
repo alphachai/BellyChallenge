@@ -11,6 +11,7 @@
 		0F3E6C421CEA8F9B00B98F72 /* VenueRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3E6C411CEA8F9B00B98F72 /* VenueRepository.swift */; };
 		0F3E6C441CEA8FAD00B98F72 /* Venue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3E6C431CEA8FAD00B98F72 /* Venue.swift */; };
 		0F3E6C491CEB9A1E00B98F72 /* test.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 0F3E6C481CEB9A1E00B98F72 /* test.gpx */; };
+		0F450D521CEE418E0086A19D /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F450D511CEE418E0086A19D /* Download.swift */; };
 		0F77DBED1CEA371D0099E417 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F77DBEC1CEA371D0099E417 /* AppDelegate.swift */; };
 		0F77DBEF1CEA371D0099E417 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F77DBEE1CEA371D0099E417 /* ListViewController.swift */; };
 		0F77DBF51CEA371D0099E417 /* BellyChallenge.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0F77DBF31CEA371D0099E417 /* BellyChallenge.xcdatamodeld */; };
@@ -50,6 +51,7 @@
 		0F3E6C411CEA8F9B00B98F72 /* VenueRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueRepository.swift; sourceTree = "<group>"; };
 		0F3E6C431CEA8FAD00B98F72 /* Venue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Venue.swift; sourceTree = "<group>"; };
 		0F3E6C481CEB9A1E00B98F72 /* test.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test.gpx; sourceTree = "<group>"; };
+		0F450D511CEE418E0086A19D /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		0F77DBE91CEA371D0099E417 /* BellyChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellyChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F77DBEC1CEA371D0099E417 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F77DBEE1CEA371D0099E417 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				0F3E6C431CEA8FAD00B98F72 /* Venue.swift */,
 				0F3E6C411CEA8F9B00B98F72 /* VenueRepository.swift */,
 				0F9ACE201CED1C6800D5C17B /* ImageData.swift */,
+				0F450D511CEE418E0086A19D /* Download.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				0F77DBED1CEA371D0099E417 /* AppDelegate.swift in Sources */,
 				0F3E6C401CEA8F5D00B98F72 /* Constants.swift in Sources */,
 				0F9ACE1F1CED05C400D5C17B /* VenueCell.swift in Sources */,
+				0F450D521CEE418E0086A19D /* Download.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

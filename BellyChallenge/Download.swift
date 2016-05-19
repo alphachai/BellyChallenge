@@ -5,11 +5,11 @@
 
 import Foundation
 
-class ImageData : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDelegate {
+class Download : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDelegate {
     
     var task : NSURLSessionDownloadTask? = nil
     var data = NSData()
-    dynamic var imageDownloadComplete : Bool = false
+    dynamic var downloadComplete : Bool = false
     var downloadInProgress : Bool = false
     var item = 0
     var name = ""
@@ -18,18 +18,14 @@ class ImageData : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDelegate {
         super.init()
     }
     
-    init(i : Int) {
-        super.init()
-        item = i
-    }
-    
-    func get(url : NSURL) {
+    func get(method : String, url : NSURL) {
         
         downloadInProgress = true
         
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = method
         task = session.downloadTaskWithRequest(request)
         task!.resume()
     }
@@ -41,7 +37,7 @@ class ImageData : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDelegate {
     // Download complete with error.
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         if(error != nil) {
-            print("Image(\(item)): download completed with error")
+            print("Download \"\(name)\" completed with error.")
         }
     }
     
@@ -58,6 +54,6 @@ class ImageData : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDelegate {
         
         data = d
         downloadInProgress = false
-        imageDownloadComplete = true
+        downloadComplete = true
     }
 }

@@ -32,7 +32,8 @@ struct Constants {
         static let secret = "ZG2X1ZUZBQU0DPTGOFB22JQSW2U1GFXKY2A222DFIWYXJKCX"
 
         struct API {
-            static let search = "https://api.foursquare.com/v2/venues/search"
+            static let venues = "https://api.foursquare.com/v2/venues/"
+            static let search = venues + "/search"
         }
     }
     

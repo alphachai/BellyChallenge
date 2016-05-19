@@ -9,6 +9,7 @@
         <mutableArray key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
             <string>OpenSans</string>
+            <string>OpenSans</string>
         </mutableArray>
         <mutableArray key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
@@ -166,6 +167,30 @@
                                     <outlet property="type" destination="coJ-Kc-CbB" id="tgh-FK-ipP"/>
                                     <segue destination="3SK-pA-3oj" kind="show" identifier="tableShowDetail" id="lUF-1q-q3Z"/>
                                 </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="loading" rowHeight="50" id="cqJ-OJ-GZJ">
+                                <rect key="frame" x="0.0" y="207" width="600" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cqJ-OJ-GZJ" id="JKH-08-BMa">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="loading more..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s1E-yL-eK5">
+                                            <rect key="frame" x="240" y="14" width="120" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="JYr-jv-RPg"/>
+                                                <constraint firstAttribute="width" constant="120" id="hgw-M6-GMN"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="s1E-yL-eK5" firstAttribute="centerY" secondItem="JKH-08-BMa" secondAttribute="centerY" id="Bds-XD-G53"/>
+                                        <constraint firstItem="s1E-yL-eK5" firstAttribute="centerX" secondItem="JKH-08-BMa" secondAttribute="centerX" id="euP-6v-6dw"/>
+                                    </constraints>
+                                </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>
