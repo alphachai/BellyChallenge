@@ -45,6 +45,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         if locations.count > 0 {
             let lat = locations[0].coordinate.latitude
             let lng = locations[0].coordinate.longitude
+            venues.clear()
             venues.get(lat, lng: lng)
         }
     }
@@ -53,6 +54,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         print("Unable to find location.")
         NSLog(error.description)
         print("Searching from Winnetka, IL")
+        venues.clear()
         venues.get(42.101844, lng: -87.731731) //<wpt lat="42.101844" lon="-87.731731">
     }
     
@@ -96,6 +98,10 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
                 r.thumb.task!.cancel()
                 r.thumb.removeObserver(self, forKeyPath: "imageDownloadComplete")
             }
+            if r.icon_data.downloadInProgress == true {
+                r.icon_data.task!.cancel()
+                r.icon_data.removeObserver(self, forKeyPath: "imageDownloadComplete")
+            }
         }
     }
     
@@ -115,10 +121,9 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
             
             removeObservers()
             
-        } else if keyPath == "imageDownloadComplete" {
+        } else if keyPath == "imageDownloadComplete" { // reload the cell where image data is ready
             
             let target = object as! ImageData
-            
             let path = NSIndexPath(forItem: target.item, inSection: 0)
             tableView.reloadRowsAtIndexPaths([path], withRowAnimation: UITableViewRowAnimation.Fade)
             object?.removeObserver(self, forKeyPath: "imageDownloadComplete")
@@ -180,12 +185,26 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
             cell.thumb.image = UIImage(named: "placeholder.png")
         }
         
+        if(venues.results[indexPath.item].icon_data.imageDownloadComplete == true) {
+            cell.icon.image = UIImage(data: venues.results[indexPath.item].icon_data.data)!
+            cell.icon.contentMode = UIViewContentMode.ScaleAspectFit
+            setTint(cell.icon, tint: Constants.Colors.icon)
+        } else {
+            cell.icon.image = UIImage()
+        }
+        
         cell.thumb.layer.borderWidth = 1
         cell.thumb.layer.borderColor = Constants.Colors.imageBorder.CGColor
         cell.thumb.layer.cornerRadius = 5
         cell.thumb.clipsToBounds = true
         
         return cell
+    }
+    
+    func setTint(view: UIImageView, tint: UIColor) {
+        let i = view.image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        view.image = i
+        view.tintColor = tint
     }
     
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -201,14 +220,16 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     func loadVisibleMediaImages() {
         if venues.results.count > 0 {
             if let indicies : [NSIndexPath] = tableView.indexPathsForVisibleRows! {
-                for _ in indicies {
+                for i in indicies {
                     //loadImage(i.row)
+                    //loadThumb
+                    loadIcon(i.row)
                 }
             }
         }
     }
     
-    func loadImage(index : Int) {
+    func loadThumb(index : Int) {
         if venues.results[index].thumb.imageDownloadComplete == true {
             return // already loaded
         }
@@ -217,6 +238,20 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
             venues.results[index].thumb.item = index
             venues.results[index].thumb.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
             venues.results[index].thumb.get(checkedURL)
+        }
+    }
+    
+    func loadIcon(index : Int) {
+        if venues.results[index].thumb.imageDownloadComplete == true || venues.results[index].icon_url == "" {
+            return // already loaded
+        }
+        var url = venues.results[index].icon_url
+            url += "?client_id=" + Constants.Foursquare.id
+            url += "&client_secret=" + Constants.Foursquare.secret
+        if let checkedURL = NSURL(string: url) {
+            venues.results[index].icon_data.item = index
+            venues.results[index].icon_data.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
+            venues.results[index].icon_data.get(checkedURL)
         }
     }
     

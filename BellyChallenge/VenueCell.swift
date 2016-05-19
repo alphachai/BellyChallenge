@@ -13,6 +13,7 @@ class VenueCell: UITableViewCell {
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var type: UILabel!
     @IBOutlet weak var status: UILabel!
+    @IBOutlet weak var icon: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

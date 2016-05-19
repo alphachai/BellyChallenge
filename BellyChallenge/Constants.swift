@@ -24,6 +24,7 @@ struct Constants {
         static let open =       UIColor(red: 95.0/255.0, green: 178.0/255.0, blue: 65.0/255.0, alpha: 1.0)
         static let closed =     UIColor(red: 204.0/255.0, green: 204.0/255.0, blue: 204.0/255.0, alpha: 1.0)
         static let imageBorder = UIColor(red: 0, green: 0, blue: 0, alpha: 0.15)
+        static let icon = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
     }
     
     struct Foursquare {
