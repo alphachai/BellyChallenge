@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-let venues = BusinessRepository.sharedInstance
+let venues = VenueRepository.sharedInstance
 
 struct Constants {
     

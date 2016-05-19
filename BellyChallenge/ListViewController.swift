@@ -161,17 +161,18 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         cell.name.text = venues.results[indexPath.row].name
         cell.type.text = venues.results[indexPath.row].category
         
-        let distance = Double(venues.results[indexPath.row].distance)*0.000621371 // meters*(meters/mile)
-        cell.distance.text = "\(String(format: "%0.1f", distance)) miles away"
+        //let distance = Double(venues.results[indexPath.row].distance)*0.000621371 // meters*(meters/mile)
+        //cell.distance.text = "\(String(format: "%0.1f", distance)) miles away"
         
-        let isOpen = !venues.results[indexPath.row].is_closed
+        cell.status.alpha = 0
+        /*let isOpen = !venues.results[indexPath.row].is_closed
         if isOpen == true {
             cell.status.text = "OPEN"
             cell.status.textColor = Constants.Colors.open
         } else {
             cell.status.text = "CLOSED"
             cell.status.textColor = Constants.Colors.closed
-        }
+        }*/
         
         if(venues.results[indexPath.item].thumb.imageDownloadComplete == true) {
             cell.thumb.image = UIImage(data: venues.results[indexPath.item].thumb.data)!
@@ -200,8 +201,8 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     func loadVisibleMediaImages() {
         if venues.results.count > 0 {
             if let indicies : [NSIndexPath] = tableView.indexPathsForVisibleRows! {
-                for i in indicies {
-                    loadImage(i.row)
+                for _ in indicies {
+                    //loadImage(i.row)
                 }
             }
         }
@@ -211,7 +212,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         if venues.results[index].thumb.imageDownloadComplete == true {
             return // already loaded
         }
-        let url = venues.results[index].image_url
+        let url = venues.results[index].icon_url
         if let checkedURL = NSURL(string: url) {
             venues.results[index].thumb.item = index
             venues.results[index].thumb.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)

@@ -46,11 +46,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
                 pin.coordinate = CLLocationCoordinate2D(latitude: v.lat, longitude: v.lng)
                 pin.title = v.name
                 
-                if v.is_closed {
+                /*if v.is_closed {
                     pin.subtitle = "CLOSED"
                 } else {
                     pin.subtitle = "OPEN"
-                }
+                }*/
                 
                 map.addAnnotation(pin)
             }
