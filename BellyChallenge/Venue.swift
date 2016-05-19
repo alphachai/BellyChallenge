@@ -8,7 +8,9 @@ import Foundation
 
 class Venue : NSObject {
     
-    dynamic var id : String = ""
+    dynamic var iveUpdated : Bool = false
+    
+    var id : String = ""
     var name : String = ""
     var lat : Double = 0
     var lng : Double = 0
@@ -18,8 +20,8 @@ class Venue : NSObject {
     
     var downloads : [Download] = []
     var foundTimes : Bool = false
-    dynamic var isOpen : Bool = false
-    dynamic var thumb_url = ""
+    var isOpen : Bool = false
+    var thumb_url = ""
     var thumb : ImageData = ImageData()
     
     var hoursPulled = false
@@ -35,11 +37,13 @@ class Venue : NSObject {
     }
     
     func loadObservers() {
-        self.addObserver(self, forKeyPath: "id", options: Constants.KVO_Options, context: nil)
+        self.addObserver(self, forKeyPath: "isOpen", options: Constants.KVO_Options, context: nil)
+        self.addObserver(self, forKeyPath: "thumb_url", options: Constants.KVO_Options, context: nil)
     }
     
     func removeObservers() {
-        self.removeObserver(self, forKeyPath: "id")
+        self.removeObserver(self, forKeyPath: "isOpen")
+        self.removeObserver(self, forKeyPath: "thumb_url")
         
         for d in downloads {
             if d.downloadInProgress {
@@ -61,9 +65,8 @@ class Venue : NSObject {
                     processHours(d)
                 }
             }
-        } else if keyPath == "id" && id != "" {
-            //pull_hours()
-            //pull_photos()
+        } else if keyPath == "isOpen" || keyPath == "thumb_url" {
+            iveUpdated = true
         }
     }
     
@@ -123,12 +126,20 @@ class Venue : NSObject {
                         let suffix = item["suffix"] as! String
                         //let height = item["height"] as! Int
                         //let width = item["width"] as! Int
-                        thumb_url = prefix + "width" + "200" + suffix
+                        thumb_url = prefix + "width" + "100" + suffix
+                        iveUpdated = true
                     }
                 }
             }
         } catch {
             print("Hours JSON serialization failed.")
+        }
+        
+        for i in 0..<downloads.count {
+            if downloads[i].downloadComplete && downloads[i].name == "photos" {
+                downloads.removeAtIndex(i)
+                break
+            }
         }
     }
     
@@ -172,29 +183,22 @@ class Venue : NSObject {
                                     let start = segment["start"] as! String
                                     let end = segment["end"] as! String
                                     
-                                    print("\(name) \(today_day) \(start) to \(end)")
+                                    let start_h = Int(start[Range(start.startIndex ..< start.startIndex.advancedBy(2))])!
                                     
-                                    var index = start.startIndex.advancedBy(2)
-                                    let start_h = Int(start[Range(start.startIndex ..< index)])
+                                    let start_m = Int(start[Range(start.endIndex.advancedBy(-2) ..< start.endIndex)])!
                                     
-                                    index = start.endIndex.advancedBy(-2)
-                                    let start_m = Int(start[Range(start.startIndex ..< index)])
+                                    let end_h = Int(end[Range(end.startIndex ..< end.startIndex.advancedBy(2))])!
                                     
-                                    index = end.startIndex.advancedBy(2)
-                                    let end_h = Int(start[Range(start.startIndex ..< index)])
+                                    let end_m = Int(end[Range(end.endIndex.advancedBy(-2) ..< end.endIndex)])!
                                     
-                                    index = end.endIndex.advancedBy(-2)
-                                    let end_m = Int(start[Range(start.startIndex ..< index)])
-                                    
-                                    //print("\(start_h):\(start_m) to \(end_h):\(end_m)")
-                                    
-                                    if start_h <= today_hh && today_hh <= end_h {
-                                        // check current hour within range
-                                        if start_h == today_hh && start_m <= today_mm {
+                                    if start_h == today_hh {
+                                        if today_mm >= start_m {
                                             isOpen = true
-                                        } else if end_h == today_hh && end_m >= today_mm {
-                                            isOpen = true
-                                        } else if start_h != today_hh || end_h != today_hh {
+                                        }
+                                    } else if start_h < today_hh && today_hh < end_h {
+                                        isOpen = true
+                                    } else if end_h == today_hh {
+                                        if today_mm <= end_m {
                                             isOpen = true
                                         }
                                     }
@@ -206,6 +210,13 @@ class Venue : NSObject {
             }
         } catch {
             print("Hours JSON serialization failed.")
+        }
+        
+        for i in 0..<downloads.count {
+            if downloads[i].downloadComplete && downloads[i].name == "hours" {
+                downloads.removeAtIndex(i)
+                break
+            }
         }
     }
 }

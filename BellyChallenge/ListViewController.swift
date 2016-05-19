@@ -52,13 +52,12 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         print("Unable to find location.")
         NSLog(error.description)
-        print("Searching from Winnetka, IL")
-        pullNewResults(42.101844, lng: -87.731731)
+        print("Searching from downtown Chicago, IL")
+        pullNewResults(41.879659, lng: -87.624636)
     }
     
     func pullNewResults(lat : Double, lng : Double) {
-        print("Pulling fresh results.")
-        removeImageObservers()
+        removeVenueObservers()
         venues.clear()
         tableView.reloadData()
         venues.get(lat, lng: lng)
@@ -99,13 +98,15 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     
     func removeObservers() {
         venues.removeObserver(self, forKeyPath: "foundResults")
-        removeImageObservers()
+        removeVenueObservers()
     }
     
-    func loadImageObservers() {
-        for i in 0..<venues.results.count { //for r in venues.results {
-            venues.results[i].thumb.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
-            venues.results[i].icon_data.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
+    func removeVenueObservers() {
+        removeImageObservers()
+        if venues.foundResults {
+            for i in 0..<venues.results.count {
+                venues.results[i].removeObserver(self, forKeyPath: "iveUpdated")
+            }
         }
     }
     
@@ -129,12 +130,24 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
-        if keyPath == "foundResults" && venues.foundResults == true {
+        if keyPath == "iveUpdated" {
+            
+            let sender = object as? Venue
+            
+            if sender!.iveUpdated == true {
+                sender!.iveUpdated = false
+                loadVisible()
+            }
+            
+        } else if keyPath == "foundResults" && venues.foundResults == true {
+            
+            for i in 0..<venues.results.count {
+                venues.results[i].addObserver(self, forKeyPath: "iveUpdated", options: Constants.KVO_Options, context: nil)
+            }
             
             tableView.reloadData()
             loadVisible()
             refreshControl?.endRefreshing()
-            
             
         } else if keyPath == "deinitCanary" {
             
@@ -145,9 +158,8 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
             
             let target = object as! ImageData
             let path = NSIndexPath(forItem: target.item, inSection: 0)
-            tableView.reloadRowsAtIndexPaths([path], withRowAnimation: UITableViewRowAnimation.Fade)
+            tableView.reloadRowsAtIndexPaths([path], withRowAnimation: UITableViewRowAnimation.Automatic)
         }
-        
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -186,21 +198,25 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
             cell.name.text = venues.results[indexPath.row].name
             cell.type.text = venues.results[indexPath.row].category
             
-            //let distance = Double(venues.results[indexPath.row].distance)*0.000621371 // meters*(meters/mile)
-            //cell.distance.text = "\(String(format: "%0.1f", distance)) miles away" 
+            cell.distance.text = "\(venues.getDistance(venues.results[indexPath.row])) miles away"
+            
+            let foundTimes = venues.results[indexPath.row].foundTimes
+            let isOpen = venues.results[indexPath.row].isOpen
             
             cell.status.alpha = 0
-            /*let isOpen = !venues.results[indexPath.row].is_closed
-            if isOpen == true {
+            if isOpen == true && foundTimes == true {
+                cell.status.alpha = 1
                 cell.status.text = "OPEN"
                 cell.status.textColor = Constants.Colors.open
-            } else {
+            } else if isOpen == false && foundTimes == true {
+                cell.status.alpha = 1
                 cell.status.text = "CLOSED"
                 cell.status.textColor = Constants.Colors.closed
-            }*/
+            }
             
             if(venues.results[indexPath.item].thumb.imageDownloadComplete == true) {
                 cell.thumb.image = UIImage(data: venues.results[indexPath.item].thumb.data)!
+                cell.icon.contentMode = UIViewContentMode.ScaleAspectFill
             } else {
                 cell.thumb.image = UIImage(named: "placeholder.png")
             }
@@ -252,19 +268,26 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         if venues.results.count > 0 {
             if let indicies : [NSIndexPath] = tableView.indexPathsForVisibleRows! {
                 for i in indicies {
-                    //loadThumb
+                    loadThumb(i.row)
                     loadIcon(i.row)
-                    venues.results[i.row].pull_hours()
+                    
+                    if venues.results[i.row].photosPulled == false {
+                        venues.results[i.row].pull_photos()
+                    }
+                    
+                    if venues.results[i.row].hoursPulled == false {
+                        venues.results[i.row].pull_hours()
+                    }
                 }
             }
         }
     }
     
     func loadThumb(index : Int) {
-        if venues.results[index].thumb.imageDownloadComplete == true { // || url is blank
-            return // already loaded
+        if venues.results[index].thumb.imageDownloadComplete == true || venues.results[index].thumb_url == "" {
+            return // already loaded or no url
         }
-        let url = venues.results[index].icon_url
+        let url = venues.results[index].thumb_url
         if let checkedURL = NSURL(string: url) {
             venues.results[index].thumb.item = index
             venues.results[index].thumb.addObserver(self, forKeyPath: "imageDownloadComplete", options: Constants.KVO_Options, context: nil)
@@ -275,7 +298,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     
     func loadIcon(index : Int) {
         if venues.results[index].icon_data.imageDownloadComplete == true || venues.results[index].icon_url == "" {
-            return // already loaded or no icon
+            return // already loaded or no icon url
         }
         var url = venues.results[index].icon_url
             url += "?client_id=" + Constants.Foursquare.id

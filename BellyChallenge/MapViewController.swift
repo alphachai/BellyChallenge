@@ -46,11 +46,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
                 pin.coordinate = CLLocationCoordinate2D(latitude: v.lat, longitude: v.lng)
                 pin.title = v.name
                 
-                /*if v.is_closed {
-                    pin.subtitle = "CLOSED"
-                } else {
-                    pin.subtitle = "OPEN"
-                }*/
+                pin.subtitle = venues.getDistance(v) + " mi away"
+                
+                let foundTimes = v.foundTimes
+                let isOpen = v.isOpen
+                
+                if isOpen == true && foundTimes == true {
+                    pin.subtitle = pin.subtitle! + " • OPEN"
+                } else if isOpen == false && foundTimes == true {
+                    pin.subtitle = pin.subtitle! + " • CLOSED"
+                }
                 
                 map.addAnnotation(pin)
             }

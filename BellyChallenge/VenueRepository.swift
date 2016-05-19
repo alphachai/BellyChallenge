@@ -11,6 +11,7 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
     dynamic var foundResults : Bool = false
     dynamic var queryInProgress : Bool = false
     var results : [Venue] = []
+    var task : NSURLSessionDownloadTask? = nil
     
     var latitude : Double = 0.00
     var longitude : Double = 0.00
@@ -23,6 +24,12 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
     }
     
     func get(lat : Double, lng : Double) {
+        
+        if queryInProgress == true {
+            queryInProgress = false
+            task!.cancel()
+            clear()
+        }
         
         foundResults = false
         queryInProgress = true
@@ -41,7 +48,7 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
     }
     
     func pull(lat : Double, lng : Double) {
-        //let parameters = ["ll": "\(lat),\(lng)", "sort": "1"]
+
         var url = "\(Constants.Foursquare.API.search)"
             url += "?ll=\(lat),\(lng)"
             url += "&v=20160417"
@@ -52,10 +59,8 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
         request.HTTPMethod = "GET"
-        let task = session.downloadTaskWithRequest(request)
-        task.resume()
-        
-        //print("\nGET \(url)")
+        task = session.downloadTaskWithRequest(request)
+        task!.resume()
     }
     
     // Download in progress.
@@ -65,7 +70,7 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
     // Download complete with error.
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         if(error != nil) {
-            print("DEBUG: download completed with error")
+            //print("DEBUG: download completed with error")
         }
     }
     
@@ -143,5 +148,34 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
         }
         
         queryInProgress = false
+    }
+    
+    let pi = 3.14159265358979323846
+    let earthRadiusKm = 6371.0
+    let MIinKM = 0.62137119
+    
+    func deg2rad(deg: Double) -> Double {
+        return (deg * pi / 180)
+    }
+    
+    func rad2deg(rad: Double) -> Double {
+        return (rad * 180 / pi)
+    }
+    
+    func calcuateDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double) -> Double {
+        
+        let lat1r = deg2rad(lat1)
+        let lon1r = deg2rad(lng1)
+        let lat2r = deg2rad(lat2)
+        let lon2r = deg2rad(lng2)
+        let u = sin((lat2r - lat1r)/2)
+        let v = sin((lon2r - lon1r)/2)
+        return 2.0 * earthRadiusKm * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v)) // in KM
+    }
+    
+    func getDistance(venue: Venue) -> String {
+        var raw = calcuateDistance(venue.lat, lng1: venue.lng, lat2: latitude, lng2: longitude)
+            raw *= MIinKM
+        return String(format: "%0.1f", raw)
     }
 }
