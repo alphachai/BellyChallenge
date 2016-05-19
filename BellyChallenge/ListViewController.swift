@@ -30,6 +30,11 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         updateLocation()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        //tableView.reloadData()
+        //loadVisibleMediaImages()
+    }
+    
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         venues.get()
     }
@@ -126,7 +131,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
             
             tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             tableView.backgroundView = nil
-            return 1
+            return 2
             
         } else {
             
@@ -144,6 +149,9 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 1 {
+            return 1 // loading cell
+        }
         return venues.results.count
     }
     
@@ -157,7 +165,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         cell.distance.text = "\(String(format: "%0.1f", distance)) miles away"
         
         let isOpen = !venues.results[indexPath.row].is_closed
-        if isOpen {
+        if isOpen == true {
             cell.status.text = "OPEN"
             cell.status.textColor = Constants.Colors.open
         } else {
@@ -193,15 +201,16 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         if venues.results.count > 0 {
             if let indicies : [NSIndexPath] = tableView.indexPathsForVisibleRows! {
                 for i in indicies {
-                    if venues.results[i.row].thumb.imageDownloadComplete == false {
-                        loadImage(i.row)
-                    }
+                    loadImage(i.row)
                 }
             }
         }
     }
     
     func loadImage(index : Int) {
+        if venues.results[index].thumb.imageDownloadComplete == true {
+            return // already loaded
+        }
         let url = venues.results[index].image_url
         if let checkedURL = NSURL(string: url) {
             venues.results[index].thumb.item = index

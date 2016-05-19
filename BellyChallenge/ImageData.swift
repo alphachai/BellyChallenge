@@ -40,7 +40,7 @@ class ImageData : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDelegate {
     // Download complete with error.
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         if(error != nil) {
-            print("DEBUG: download completed with error")
+            print("Image: download completed with error")
         }
     }
     

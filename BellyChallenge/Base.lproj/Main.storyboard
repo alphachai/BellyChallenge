@@ -33,6 +33,23 @@
             </objects>
             <point key="canvasLocation" x="-935" y="314"/>
         </scene>
+        <!--Map-->
+        <scene sceneID="sYR-en-kGt">
+            <objects>
+                <navigationController id="AQ0-lE-Ci5" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Map" id="FKF-oo-OVX"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aPn-Qd-B65">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="gdq-Hz-rbj" kind="relationship" relationship="rootViewController" id="hA9-rq-12Y"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xea-kc-G9h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-935" y="1075"/>
+        </scene>
         <!--Locations-->
         <scene sceneID="G0i-y1-1Yz">
             <objects>
@@ -134,6 +151,40 @@
             </objects>
             <point key="canvasLocation" x="-106" y="314"/>
         </scene>
+        <!--Locations-->
+        <scene sceneID="1P7-cS-obP">
+            <objects>
+                <viewController id="gdq-Hz-rbj" customClass="MapViewController" customModule="BellyChallenge" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="k1D-1k-bIk"/>
+                        <viewControllerLayoutGuide type="bottom" id="xUV-fU-pG3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SCd-9C-C1b">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="wTO-XQ-agi">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wTO-XQ-agi" firstAttribute="top" secondItem="k1D-1k-bIk" secondAttribute="bottom" id="1x8-Xt-HP7"/>
+                            <constraint firstItem="xUV-fU-pG3" firstAttribute="top" secondItem="wTO-XQ-agi" secondAttribute="bottom" id="E9u-LU-3Cs"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wTO-XQ-agi" secondAttribute="trailing" constant="-20" id="XqK-TV-QO0"/>
+                            <constraint firstItem="wTO-XQ-agi" firstAttribute="leading" secondItem="SCd-9C-C1b" secondAttribute="leadingMargin" constant="-20" id="q1Y-oA-1B3"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Locations" id="c5l-fg-Y88"/>
+                    <connections>
+                        <outlet property="map" destination="wTO-XQ-agi" id="ngz-VL-X9U"/>
+                        <segue destination="3SK-pA-3oj" kind="show" identifier="mapShowDetail" id="Fcu-WU-fW4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c3O-S1-9C9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-106" y="1075"/>
+        </scene>
         <!--Venue-->
         <scene sceneID="N35-Pk-Rmb">
             <objects>
@@ -153,49 +204,6 @@
             </objects>
             <point key="canvasLocation" x="804" y="715"/>
         </scene>
-        <!--Locations-->
-        <scene sceneID="L3y-bf-mEH">
-            <objects>
-                <viewController id="zKt-cd-lzi" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Hg6-DA-Fad"/>
-                        <viewControllerLayoutGuide type="bottom" id="lSG-eN-Ofd"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Msw-PC-LHa">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Locations" id="bXm-HY-8vd"/>
-                    <connections>
-                        <segue destination="3SK-pA-3oj" kind="show" identifier="mapShowDetail" id="GCf-j0-6CT"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Syh-gy-XYN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-106" y="1097"/>
-        </scene>
-        <!--Map-->
-        <scene sceneID="0R1-wX-EcI">
-            <objects>
-                <navigationController toolbarHidden="NO" id="bPU-CE-fRK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" id="PAI-En-gBc"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MTt-Dg-xDi">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="OM9-PJ-aWV">
-                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </toolbar>
-                    <connections>
-                        <segue destination="zKt-cd-lzi" kind="relationship" relationship="rootViewController" id="eAK-Rj-u6s"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FhP-Hj-8oO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-935" y="1097"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="xxk-WI-3GK">
             <objects>
@@ -207,7 +215,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="g3v-go-Dn5" kind="relationship" relationship="viewControllers" id="s9l-bk-lWE"/>
-                        <segue destination="bPU-CE-fRK" kind="relationship" relationship="viewControllers" id="vkO-yU-oXl"/>
+                        <segue destination="AQ0-lE-Ci5" kind="relationship" relationship="viewControllers" id="H6o-AF-yS2"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w8Y-dj-akH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -216,6 +224,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lUF-1q-q3Z"/>
+        <segue reference="Fcu-WU-fW4"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -13,7 +13,6 @@
 		0F3E6C491CEB9A1E00B98F72 /* test.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 0F3E6C481CEB9A1E00B98F72 /* test.gpx */; };
 		0F77DBED1CEA371D0099E417 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F77DBEC1CEA371D0099E417 /* AppDelegate.swift */; };
 		0F77DBEF1CEA371D0099E417 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F77DBEE1CEA371D0099E417 /* ListViewController.swift */; };
-		0F77DBF21CEA371D0099E417 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F77DBF01CEA371D0099E417 /* Main.storyboard */; };
 		0F77DBF51CEA371D0099E417 /* BellyChallenge.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0F77DBF31CEA371D0099E417 /* BellyChallenge.xcdatamodeld */; };
 		0F77DBF71CEA371D0099E417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F77DBF61CEA371D0099E417 /* Assets.xcassets */; };
 		0F77DBFA1CEA371D0099E417 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F77DBF81CEA371D0099E417 /* LaunchScreen.storyboard */; };
@@ -25,6 +24,9 @@
 		0F9ACE1F1CED05C400D5C17B /* VenueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9ACE1E1CED05C400D5C17B /* VenueCell.swift */; };
 		0F9ACE211CED1C6800D5C17B /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9ACE201CED1C6800D5C17B /* ImageData.swift */; };
 		0F9ACE231CED308900D5C17B /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F9ACE221CED308900D5C17B /* placeholder.png */; };
+		0F9ACE261CED42CD00D5C17B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F9ACE241CED42CD00D5C17B /* Main.storyboard */; };
+		0F9ACE2A1CED44D600D5C17B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9ACE291CED44D600D5C17B /* MapViewController.swift */; };
+		0F9ACE2C1CED457A00D5C17B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F9ACE2B1CED457A00D5C17B /* MapKit.framework */; };
 		7BE40E0674458E8AD2B40C07 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AFA810463C5EF41A506F08 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
@@ -54,7 +56,6 @@
 		0F77DBE91CEA371D0099E417 /* BellyChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellyChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F77DBEC1CEA371D0099E417 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F77DBEE1CEA371D0099E417 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
-		0F77DBF11CEA371D0099E417 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0F77DBF41CEA371D0099E417 /* BellyChallenge.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BellyChallenge.xcdatamodel; sourceTree = "<group>"; };
 		0F77DBF61CEA371D0099E417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F77DBF91CEA371D0099E417 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -71,6 +72,9 @@
 		0F9ACE1E1CED05C400D5C17B /* VenueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueCell.swift; sourceTree = "<group>"; };
 		0F9ACE201CED1C6800D5C17B /* ImageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		0F9ACE221CED308900D5C17B /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
+		0F9ACE251CED42CD00D5C17B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0F9ACE291CED44D600D5C17B /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		0F9ACE2B1CED457A00D5C17B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1F2615E0600ACD9B7FA3BFFD /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5C71A59C53E7DF6AF3763855 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F9ACE2C1CED457A00D5C17B /* MapKit.framework in Frameworks */,
 				7BE40E0674458E8AD2B40C07 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,8 +129,8 @@
 		0F3E6C461CEA8FC900B98F72 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0F9ACE241CED42CD00D5C17B /* Main.storyboard */,
 				0F77DBF81CEA371D0099E417 /* LaunchScreen.storyboard */,
-				0F77DBF01CEA371D0099E417 /* Main.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -135,6 +140,7 @@
 			children = (
 				0F77DBEE1CEA371D0099E417 /* ListViewController.swift */,
 				0F9ACE1E1CED05C400D5C17B /* VenueCell.swift */,
+				0F9ACE291CED44D600D5C17B /* MapViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -209,6 +215,7 @@
 		EBF8C7AF4D7A0C2711ECF805 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F9ACE2B1CED457A00D5C17B /* MapKit.framework */,
 				0F9ACE071CECF07500D5C17B /* YelpAPIClient.swift */,
 				07AFA810463C5EF41A506F08 /* Pods.framework */,
 			);
@@ -322,11 +329,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F9ACE261CED42CD00D5C17B /* Main.storyboard in Resources */,
 				0F77DBFA1CEA371D0099E417 /* LaunchScreen.storyboard in Resources */,
 				0F9ACE1B1CED057B00D5C17B /* OpenSans-Semibold.ttf in Resources */,
 				0F77DBF71CEA371D0099E417 /* Assets.xcassets in Resources */,
 				0F3E6C491CEB9A1E00B98F72 /* test.gpx in Resources */,
-				0F77DBF21CEA371D0099E417 /* Main.storyboard in Resources */,
 				0F9ACE1A1CED057B00D5C17B /* OpenSans-Regular.ttf in Resources */,
 				0F9ACE231CED308900D5C17B /* placeholder.png in Resources */,
 			);
@@ -404,6 +411,7 @@
 				0F77DBF51CEA371D0099E417 /* BellyChallenge.xcdatamodeld in Sources */,
 				0F3E6C421CEA8F9B00B98F72 /* BusinessRepository.swift in Sources */,
 				0F77DBEF1CEA371D0099E417 /* ListViewController.swift in Sources */,
+				0F9ACE2A1CED44D600D5C17B /* MapViewController.swift in Sources */,
 				0F3E6C441CEA8FAD00B98F72 /* Business.swift in Sources */,
 				0F9ACE081CECF07500D5C17B /* YelpAPIClient.swift in Sources */,
 				0F9ACE211CED1C6800D5C17B /* ImageData.swift in Sources */,
@@ -445,20 +453,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		0F77DBF01CEA371D0099E417 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0F77DBF11CEA371D0099E417 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		0F77DBF81CEA371D0099E417 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				0F77DBF91CEA371D0099E417 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		0F9ACE241CED42CD00D5C17B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0F9ACE251CED42CD00D5C17B /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

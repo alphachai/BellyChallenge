@@ -30,17 +30,7 @@ class BusinessRepository : NSObject {
         latitude = lat
         longitude = lng
         
-        let parameters = ["ll": "\(lat),\(lng)", "sort": "1"]
-        
-        yelp.searchPlacesWithParameters(parameters, successSearch: { (data, response) -> Void in
-            
-                NSOperationQueue.mainQueue().addOperationWithBlock({
-                    self.processResponse(data)
-                })
-            
-            }, failureSearch: { (error) -> Void in
-                print(error)
-        })
+        pull(lat, lng: lng)
     }
     
     func get() {
@@ -48,7 +38,11 @@ class BusinessRepository : NSObject {
             return
         }
         
-        let parameters = ["ll": "\(latitude),\(longitude)", "sort": "1"]
+        pull(latitude, lng: longitude)
+    }
+    
+    func pull(lat : Double, lng : Double) {
+        let parameters = ["ll": "\(lat),\(lng)", "sort": "1"]
         
         yelp.searchPlacesWithParameters(parameters, successSearch: { (data, response) -> Void in
             
@@ -89,6 +83,13 @@ class BusinessRepository : NSObject {
                                 let categories = v as! Array<AnyObject>
                                 let first = categories.first as! Array<AnyObject>
                                 new.category = first.first as! String
+                                
+                            } else if k == "location" {
+                              
+                                let location = v as! Dictionary<String,AnyObject>
+                                let coordinate = location["coordinate"] as! Dictionary<String,Double>
+                                new.lat = coordinate["latitude"]!
+                                new.lng = coordinate["longitude"]!
                                 
                             } else {
                                 

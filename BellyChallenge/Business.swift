@@ -27,4 +27,6 @@ class Business : NSObject {
     
     var category : String = ""
     var thumb : ImageData = ImageData()
+    var lat : Double = 0
+    var lng : Double = 0
 }
