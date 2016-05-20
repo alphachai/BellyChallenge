@@ -5,6 +5,8 @@
 
 
 import Foundation
+import CoreData
+import UIKit
 
 class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDelegate {
     
@@ -23,7 +25,81 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
         super.init()
     }
     
+    func hasMoved(newLat : Double, newLng : Double) -> Bool {
+        let defaults : NSUserDefaults = NSUserDefaults()
+        let oldLat = defaults.doubleForKey("lat")
+        let oldLng = defaults.doubleForKey("lng")
+        
+        if (calcuateDistance(newLat, lng1: newLng, lat2: oldLat, lng2: oldLng)*MIinKM) > 1 {
+            return true
+        }
+        return false
+    }
+    
+    func deleteStoredData() {
+        let moc = getMOC()
+        let fetchRequest = NSFetchRequest(entityName: "Venue")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        do {
+            print("Deleting old results from core data.")
+            try moc.executeRequest(deleteRequest)
+            try moc.save()
+        } catch let error as NSError {
+            print("Delete failed: \(error), \(error.userInfo)")
+        }
+    }
+    
+    func fetchData(newLat: Double, newLng : Double) -> Bool {
+        
+        if hasMoved(newLat, newLng: newLng) {
+            
+            print("You have moved >1km. Pulling fresh results.")
+            
+            get(newLat, lng: newLng)
+            let defaults : NSUserDefaults = NSUserDefaults()
+            defaults.setDouble(newLat, forKey: "lat")
+            defaults.setDouble(newLng, forKey: "lng")
+            
+        } else {
+            
+            print("You have not moved. Pulling from core data.")
+            
+            clear()
+            
+            latitude = newLat
+            longitude = newLng
+            
+            let fetchRequest = NSFetchRequest(entityName: "Venue")
+            do {
+                let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+                let managedContext = appDelegate!.managedObjectContext
+                let results = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
+                print("There are \(results.count) venues in core data.")
+                for r in results {
+                    let venue = Venue()
+                    venue.id = r.valueForKey("id") as! String
+                    venue.name = r.valueForKey("name") as! String
+                    venue.category = r.valueForKey("category") as! String
+                    venue.lat = r.valueForKey("lat") as! Double
+                    venue.lng = r.valueForKey("lng") as! Double
+                    venue.icon_url = r.valueForKey("icon_url") as! String
+                    venue.thumb_url = r.valueForKey("thumb_url") as! String
+                    venues.results.append(venue)
+                }
+                if results.count > 0 {
+                    foundResults = true
+                }
+            } catch let error as NSError {
+                print("Could not fetch \(error), \(error.userInfo)")
+            }
+        }
+        
+        return false
+    }
+    
     func get(lat : Double, lng : Double) {
+        
+        deleteStoredData()
         
         if queryInProgress == true {
             queryInProgress = false
@@ -39,7 +115,7 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
         pull(lat, lng: lng)
     }
     
-    func get() {
+    func get() { // for geting the next page of results...not setup to work with foursquare atm...
         if(results.count == 0) {
             return
         }
@@ -133,6 +209,23 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
                         }
                         
                         results.append(new)
+                        
+                        let moc = getMOC()
+                        let venue = NSEntityDescription.insertNewObjectForEntityForName("Venue", inManagedObjectContext:moc)
+                        
+                        venue.setValue(new.id, forKey:"id")
+                        venue.setValue(new.name, forKey:"name")
+                        venue.setValue(new.category, forKey:"category")
+                        venue.setValue(new.lat, forKey:"lat")
+                        venue.setValue(new.lng, forKey:"lng")
+                        venue.setValue(new.icon_url, forKey:"icon_url")
+                        venue.setValue(new.thumb_url, forKey:"thumb_url")
+                        
+                        do {
+                            try moc.save()
+                        } catch {
+                            print("There is some error.")
+                        }
                     }
                     
                 }
@@ -148,6 +241,11 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
         }
         
         queryInProgress = false
+    }
+    
+    func getMOC() -> NSManagedObjectContext {
+        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        return appDelegate!.managedObjectContext
     }
     
     let pi = 3.14159265358979323846
@@ -177,5 +275,76 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
         var raw = calcuateDistance(venue.lat, lng1: venue.lng, lat2: latitude, lng2: longitude)
             raw *= MIinKM
         return String(format: "%0.1f", raw)
+    }
+    
+    deinit {
+        
+        //delete
+        /*
+         // Delete places from core data.
+         let fetchRequest = NSFetchRequest(entityName: DataController.instance.data_entity as String)
+         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+         
+         do {
+         NSLog("Deleting old results from core data.")
+         try moc.executeRequest(deleteRequest)
+         try moc.save()
+         } catch {
+         print (error)
+         }
+         */
+        
+        //fetch
+        /*
+         let fetchRequest = NSFetchRequest(entityName: DataController.instance.data_entity)
+         
+         places.lat = defaults.doubleForKey("lat")
+         places.lng = defaults.doubleForKey("lng")
+         
+         do {
+         let results =
+         try moc.executeFetchRequest(fetchRequest) as! [PlaceManaged] //[NSManagedObject]
+         
+         for r in results {
+         let place : Place = Place()
+         
+         place.formatted_address = r.formatted_address
+         place.lat = r.lat
+         place.lng = r.lng
+         place.name = r.name
+         
+         places.add(place)
+         }
+         
+         if(places.results.count > 0) {
+         NSLog("Sucessfully pulled stored results from core data.")
+         places.success = true
+         }
+         
+         } catch let error as NSError {
+         print("Could not fetch \(error), \(error.userInfo)")
+         }*/
+        
+        //insert
+        /*
+         if hasMoved == true {
+         for p in places.results {
+         let managedPlace = NSEntityDescription.insertNewObjectForEntityForName(DataController.instance.data_entity, inManagedObjectContext: moc) as! PlaceManaged
+         
+         managedPlace.setValue(p.formatted_address, forKey: "formatted_address")
+         managedPlace.setValue(p.lat, forKey: "lat")
+         managedPlace.setValue(p.lng, forKey: "lng")
+         managedPlace.setValue(p.name, forKey: "name")
+         }
+         
+         do {
+         try moc.save()
+         NSLog("Saving places to core data.")
+         } catch let error as NSError {
+         NSLog("Failed to save to core data (\(error))")
+         }
+         }
+         */
+        
     }
 }

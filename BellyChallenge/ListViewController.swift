@@ -45,15 +45,23 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         if locations.count > 0 {
             let lat = locations[0].coordinate.latitude
             let lng = locations[0].coordinate.longitude
-            pullNewResults(lat, lng: lng)
+            if(venues.results.count == 0) {
+                venues.fetchData(lat, newLng: lng)
+            } else {
+                pullNewResults(lat, lng: lng)
+            }
         }
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         print("Unable to find location.")
-        NSLog(error.description)
+        print(error.description)
         print("Searching from downtown Chicago, IL")
-        pullNewResults(41.879659, lng: -87.624636)
+        if(venues.results.count == 0) {
+            venues.fetchData(41.879659, newLng: -87.624636)
+        } else {
+            pullNewResults(41.879659, lng: -87.624636)
+        }
     }
     
     func pullNewResults(lat : Double, lng : Double) {
