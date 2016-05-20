@@ -9,6 +9,8 @@ import CoreLocation
 class ListViewController: UITableViewController, CLLocationManagerDelegate {
 
     let locationManager : CLLocationManager = CLLocationManager()
+    var current_row = 0
+    var current_section = 0
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
@@ -149,6 +151,8 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
             
         } else if keyPath == "foundResults" && venues.foundResults == true {
             
+            venues.sortResultsByDistance()
+            
             for i in 0..<venues.results.count {
                 venues.results[i].addObserver(self, forKeyPath: "iveUpdated", options: Constants.KVO_Options, context: nil)
             }
@@ -192,6 +196,16 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         }
     }
     
+    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        current_row = indexPath.row
+        current_section = indexPath.section
+        return indexPath
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
             return 1 // loading cell
@@ -206,7 +220,7 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
             cell.name.text = venues.results[indexPath.row].name
             cell.type.text = venues.results[indexPath.row].category
             
-            cell.distance.text = "\(venues.getDistance(venues.results[indexPath.row])) miles away"
+            cell.distance.text = "\(String(format: "%0.1f", venues.getDistance(venues.results[indexPath.row]))) miles away"
             
             let foundTimes = venues.results[indexPath.row].foundTimes
             let isOpen = venues.results[indexPath.row].isOpen
@@ -276,15 +290,19 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         if venues.results.count > 0 {
             if let indicies : [NSIndexPath] = tableView.indexPathsForVisibleRows! {
                 for i in indicies {
-                    loadThumb(i.row)
-                    loadIcon(i.row)
-                    
-                    if venues.results[i.row].photosPulled == false {
-                        venues.results[i.row].pull_photos()
-                    }
-                    
-                    if venues.results[i.row].hoursPulled == false {
-                        venues.results[i.row].pull_hours()
+                    if i.section == 0 {
+                        loadThumb(i.row)
+                        loadIcon(i.row)
+                        
+                        if venues.results[i.row].photosPulled == false {
+                            venues.results[i.row].pull_photos()
+                        }
+                        
+                        if venues.results[i.row].hoursPulled == false {
+                            venues.results[i.row].pull_hours()
+                        }
+                    } else if i.section == 1 {
+                        print("Load more results? Not implemented for this demo.")
                     }
                 }
             }
@@ -323,6 +341,14 @@ class ListViewController: UITableViewController, CLLocationManagerDelegate {
         super.didReceiveMemoryWarning()
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "tableShowDetail" {
+            
+            let dest = segue.destinationViewController as! DetailedViewController
+            dest.venue = venues.results[current_row]
+        }
+    }
 
 }
 

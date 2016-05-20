@@ -17,7 +17,7 @@ class Venue : NSObject {
     var category : String = ""
     var icon_url : String = ""
     var icon_data : ImageData = ImageData()
-    
+    var distance : Double = 0
     var downloads : [Download] = []
     var foundTimes : Bool = false
     var isOpen : Bool = false

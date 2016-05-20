@@ -97,6 +97,17 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
         return false
     }
     
+    func sortResultsByDistance() {
+        
+        // update distances
+        for r in results {
+            r.distance = getDistance(r)
+        }
+        
+        // sort by distance, descending
+        results = results.sort({ $0.distance < $1.distance })
+    }
+    
     func get(lat : Double, lng : Double) {
         
         deleteStoredData()
@@ -271,80 +282,9 @@ class VenueRepository : NSObject, NSURLSessionDelegate, NSURLSessionDownloadDele
         return 2.0 * earthRadiusKm * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v)) // in KM
     }
     
-    func getDistance(venue: Venue) -> String {
+    func getDistance(venue: Venue) -> Double {
         var raw = calcuateDistance(venue.lat, lng1: venue.lng, lat2: latitude, lng2: longitude)
             raw *= MIinKM
-        return String(format: "%0.1f", raw)
-    }
-    
-    deinit {
-        
-        //delete
-        /*
-         // Delete places from core data.
-         let fetchRequest = NSFetchRequest(entityName: DataController.instance.data_entity as String)
-         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-         
-         do {
-         NSLog("Deleting old results from core data.")
-         try moc.executeRequest(deleteRequest)
-         try moc.save()
-         } catch {
-         print (error)
-         }
-         */
-        
-        //fetch
-        /*
-         let fetchRequest = NSFetchRequest(entityName: DataController.instance.data_entity)
-         
-         places.lat = defaults.doubleForKey("lat")
-         places.lng = defaults.doubleForKey("lng")
-         
-         do {
-         let results =
-         try moc.executeFetchRequest(fetchRequest) as! [PlaceManaged] //[NSManagedObject]
-         
-         for r in results {
-         let place : Place = Place()
-         
-         place.formatted_address = r.formatted_address
-         place.lat = r.lat
-         place.lng = r.lng
-         place.name = r.name
-         
-         places.add(place)
-         }
-         
-         if(places.results.count > 0) {
-         NSLog("Sucessfully pulled stored results from core data.")
-         places.success = true
-         }
-         
-         } catch let error as NSError {
-         print("Could not fetch \(error), \(error.userInfo)")
-         }*/
-        
-        //insert
-        /*
-         if hasMoved == true {
-         for p in places.results {
-         let managedPlace = NSEntityDescription.insertNewObjectForEntityForName(DataController.instance.data_entity, inManagedObjectContext: moc) as! PlaceManaged
-         
-         managedPlace.setValue(p.formatted_address, forKey: "formatted_address")
-         managedPlace.setValue(p.lat, forKey: "lat")
-         managedPlace.setValue(p.lng, forKey: "lng")
-         managedPlace.setValue(p.name, forKey: "name")
-         }
-         
-         do {
-         try moc.save()
-         NSLog("Saving places to core data.")
-         } catch let error as NSError {
-         NSLog("Failed to save to core data (\(error))")
-         }
-         }
-         */
-        
+        return raw
     }
 }

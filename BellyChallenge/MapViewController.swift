@@ -6,10 +6,15 @@
 import UIKit
 import MapKit
 
+class VenuePin : MKPointAnnotation {
+    var venue_id = ""
+}
+
 class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var map: MKMapView!
     var changeInProgress = false
+    var selection = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,11 +47,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
             map.setRegion(reg, animated: false)
             
             for v in venues.results {
-                let pin = MKPointAnnotation()
+                let pin = VenuePin()
                 pin.coordinate = CLLocationCoordinate2D(latitude: v.lat, longitude: v.lng)
                 pin.title = v.name
                 
-                pin.subtitle = venues.getDistance(v) + " mi away"
+                pin.subtitle = String(format: "%0.1f", venues.getDistance(v)) + " mi away"
                 
                 let foundTimes = v.foundTimes
                 let isOpen = v.isOpen
@@ -57,6 +62,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
                     pin.subtitle = pin.subtitle! + " • CLOSED"
                 }
                 
+                pin.venue_id = v.id
                 map.addAnnotation(pin)
             }
             
@@ -93,7 +99,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         if(annotation.isKindOfClass(MKUserLocation)) {
             return nil
         }
-        //try to dismiss already open
+
         if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier("pin") as? MKPinAnnotationView {
             dequeuedView.annotation = annotation
             view = dequeuedView
@@ -109,6 +115,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         
         if (control as? UIButton)?.buttonType == UIButtonType.DetailDisclosure {
             mapView.deselectAnnotation(view.annotation, animated: false)
+            let pin = view.annotation as! VenuePin
+            let id = pin.venue_id
+            selection = id
             performSegueWithIdentifier("mapShowDetail", sender: view)
         }
     }
@@ -143,14 +152,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        if segue.identifier == "listShowDetail" {
+        if segue.identifier == "mapShowDetail" {
             
-            //let dest = segue.destinationViewController as!
-            //destViewController.hidesBottomBarWhenPushed = YES
+            let dest = segue.destinationViewController as! DetailedViewController
             
-        } else if segue.identifier == "mapShowDetail" {
-            
-            //
+            for v in venues.results {
+                if v.id == selection {
+                    dest.venue = v
+                    print("Segue from map not fully implemented. Photo and open/closed may be missing.")
+                    break
+                }
+            }
             
         }
     }

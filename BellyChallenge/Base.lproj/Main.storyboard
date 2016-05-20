@@ -10,8 +10,10 @@
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
+            <string>OpenSans</string>
         </mutableArray>
         <mutableArray key="OpenSans-Semibold.ttf">
+            <string>OpenSans-Semibold</string>
             <string>OpenSans-Semibold</string>
             <string>OpenSans-Semibold</string>
         </mutableArray>
@@ -241,7 +243,7 @@
         <!--Venue-->
         <scene sceneID="N35-Pk-Rmb">
             <objects>
-                <viewController id="3SK-pA-3oj" sceneMemberID="viewController">
+                <viewController id="3SK-pA-3oj" customClass="DetailedViewController" customModule="BellyChallenge" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="h4c-p3-cwl"/>
                         <viewControllerLayoutGuide type="bottom" id="bzq-pg-rhG"/>
@@ -249,9 +251,51 @@
                     <view key="view" contentMode="scaleToFill" id="sdg-aI-X0n">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{name}" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQi-4D-AOI">
+                                <rect key="frame" x="0.0" y="180" width="600" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="N42-Wt-Wp0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="20"/>
+                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ax3-sg-U1q">
+                                <rect key="frame" x="250" y="72" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="AAa-rI-MqJ"/>
+                                    <constraint firstAttribute="height" constant="100" id="MzC-C8-POK"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{time}" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6e-rk-Ibu">
+                                <rect key="frame" x="0.0" y="218" width="600" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="jqu-uR-IZR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hQi-4D-AOI" firstAttribute="top" secondItem="ax3-sg-U1q" secondAttribute="bottom" constant="8" id="2lm-fh-GQq"/>
+                            <constraint firstItem="ax3-sg-U1q" firstAttribute="top" secondItem="h4c-p3-cwl" secondAttribute="bottom" constant="8" id="AKu-CN-Iyf"/>
+                            <constraint firstItem="ax3-sg-U1q" firstAttribute="centerX" secondItem="sdg-aI-X0n" secondAttribute="centerX" id="HAQ-fn-RXq"/>
+                            <constraint firstItem="R6e-rk-Ibu" firstAttribute="leading" secondItem="sdg-aI-X0n" secondAttribute="leadingMargin" constant="-20" id="I63-C1-i1A"/>
+                            <constraint firstItem="R6e-rk-Ibu" firstAttribute="top" secondItem="hQi-4D-AOI" secondAttribute="bottom" constant="8" id="WXB-aC-hJf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="R6e-rk-Ibu" secondAttribute="trailing" constant="-20" id="Xbn-ZS-HM4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hQi-4D-AOI" secondAttribute="trailing" constant="-20" id="kjS-kF-55y"/>
+                            <constraint firstItem="hQi-4D-AOI" firstAttribute="leading" secondItem="sdg-aI-X0n" secondAttribute="leadingMargin" constant="-20" id="m9h-Rp-mZN"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Venue" id="2ry-vS-kKT"/>
+                    <connections>
+                        <outlet property="image" destination="ax3-sg-U1q" id="TUN-jD-N9Y"/>
+                        <outlet property="name" destination="hQi-4D-AOI" id="WYx-UT-gYs"/>
+                        <outlet property="status" destination="R6e-rk-Ibu" id="32a-cI-0z5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XVH-ad-Xv3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

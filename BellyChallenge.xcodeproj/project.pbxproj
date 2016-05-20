@@ -26,6 +26,7 @@
 		0F9ACE261CED42CD00D5C17B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F9ACE241CED42CD00D5C17B /* Main.storyboard */; };
 		0F9ACE2A1CED44D600D5C17B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9ACE291CED44D600D5C17B /* MapViewController.swift */; };
 		0F9ACE2C1CED457A00D5C17B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F9ACE2B1CED457A00D5C17B /* MapKit.framework */; };
+		0FEB33391CEEF19300823BBC /* DetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEB33381CEEF19300823BBC /* DetailedViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		0F9ACE251CED42CD00D5C17B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0F9ACE291CED44D600D5C17B /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0F9ACE2B1CED457A00D5C17B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		0FEB33381CEEF19300823BBC /* DetailedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				0F77DBEE1CEA371D0099E417 /* ListViewController.swift */,
 				0F9ACE1E1CED05C400D5C17B /* VenueCell.swift */,
 				0F9ACE291CED44D600D5C17B /* MapViewController.swift */,
+				0FEB33381CEEF19300823BBC /* DetailedViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				0F77DBF51CEA371D0099E417 /* BellyChallenge.xcdatamodeld in Sources */,
 				0F3E6C421CEA8F9B00B98F72 /* VenueRepository.swift in Sources */,
 				0F77DBEF1CEA371D0099E417 /* ListViewController.swift in Sources */,
+				0FEB33391CEEF19300823BBC /* DetailedViewController.swift in Sources */,
 				0F9ACE2A1CED44D600D5C17B /* MapViewController.swift in Sources */,
 				0F3E6C441CEA8FAD00B98F72 /* Venue.swift in Sources */,
 				0F9ACE211CED1C6800D5C17B /* ImageData.swift in Sources */,
